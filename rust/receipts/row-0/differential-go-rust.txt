@@ -1,0 +1,25 @@
+$ scripts/differential.py --engine go=GO --engine rust=RUST
+BROKEN  backup-and-migrate [legacy]: the go driver stopped answering at request 0 (fix_inputs), status 1
+BROKEN  backup-and-migrate [segmented]: the go driver stopped answering at request 0 (fix_inputs), status 1
+BROKEN  publish-read-commit [legacy]: the go driver stopped answering at request 0 (fix_inputs), status 1
+BROKEN  publish-read-commit [segmented]: the go driver stopped answering at request 0 (fix_inputs), status 1
+BROKEN  retention [legacy]: the go driver stopped answering at request 0 (fix_inputs), status 1
+BROKEN  retention [segmented]: the go driver stopped answering at request 0 (fix_inputs), status 1
+6 comparisons: 0 different, 6 broken
+
+$ scripts/differential.py --engine go=GO --engine rust=RUST --without-seam --trace retention --format segmented
+DIFFER  retention [segmented]: rust against go, 27 differences
+        reply 0 (open): go {"ok":true,"result":{"truncated_at":0,"truncated_bytes":0}} | rust {"ok":false,"error":"other","message":"dostoevsky: OpenSegmented is not port
+        reply 1 (publish_batch): go {"ok":true,"result":{"records":[{"topic":"events","partition":0,"offset":0,"key":"","value":"cjA=","id":"r0","time":"17958733271843958
+        reply 2 (commit_batch): go {"ok":true} | rust {"ok":false,"error":"other","message":"dost-conform: no node is open"}
+        reply 3 (retain): go {"ok":false,"error":"conflict","message":"partition {events 0} has a lagging consumer: checkpoint or message ID conflict"} | rust {"ok":false
+        reply 5 (retain): go {"ok":true} | rust {"ok":false,"error":"other","message":"dost-conform: no node is open"}
+
+$ scripts/differential.py --engine rust=RUST --engine again=RUST
+same    backup-and-migrate [legacy]: again against rust: 16 replies (16 identical as bytes), 0 files, 0 bytes
+same    backup-and-migrate [segmented]: again against rust: 11 replies (11 identical as bytes), 0 files, 0 bytes
+same    publish-read-commit [legacy]: again against rust: 24 replies (24 identical as bytes), 0 files, 0 bytes
+same    publish-read-commit [segmented]: again against rust: 25 replies (25 identical as bytes), 0 files, 0 bytes
+same    retention [legacy]: again against rust: 16 replies (16 identical as bytes), 0 files, 0 bytes
+same    retention [segmented]: again against rust: 16 replies (16 identical as bytes), 0 files, 0 bytes
+6 comparisons: 0 different, 0 broken

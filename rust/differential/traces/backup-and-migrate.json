@@ -1,0 +1,22 @@
+{
+  "about": "A backup beside the store, a backup onto an existing directory (refused), a migration of a legacy store to the segmented format, and inspection of the legacy journal.",
+  "formats": ["legacy", "segmented"],
+  "requests": [
+    {"op": "open"},
+    {"op": "publish", "value": "one", "id": "a"},
+    {"op": "publish", "value": "two", "key": "k"},
+    {"op": "commit_batch", "group": "g", "offset": 0, "next": 1, "state": "s"},
+    {"op": "backup", "dest": "copy"},
+    {"op": "backup", "dest": "copy"},
+    {"op": "migrate", "dest": "moved", "only": "legacy"},
+    {"op": "close"},
+    {"op": "inspect", "dir": "store", "only": "legacy"},
+    {"op": "open", "dir": "copy"},
+    {"op": "read_batch", "offset": 0, "records": 10, "bytes": 1048576},
+    {"op": "position", "group": "g"},
+    {"op": "close"},
+    {"op": "open", "dir": "moved", "segmented": true, "only": "legacy"},
+    {"op": "read_batch", "offset": 0, "records": 10, "bytes": 1048576, "only": "legacy"},
+    {"op": "close", "only": "legacy"}
+  ]
+}

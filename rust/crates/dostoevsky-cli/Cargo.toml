@@ -1,0 +1,15 @@
+[package]
+name = "dostoevsky-cli"
+description = "The command-line tools and the conformance driver."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+dostoevsky-core = { path = "../dostoevsky-core" }
+dostoevsky-format = { path = "../dostoevsky-format" }

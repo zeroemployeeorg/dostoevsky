@@ -1,0 +1,15 @@
+[package]
+name = "dostoevsky-wire"
+description = "The wire codec. No I/O."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+dostoevsky-format = { path = "../dostoevsky-format" }
+subtle = "=2.6.1"

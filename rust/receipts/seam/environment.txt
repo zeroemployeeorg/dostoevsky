@@ -1,0 +1,5 @@
+machine: Linux x86_64, 2 processors
+rust: rustc 1.97.0 (2d8144b78 2026-07-07)
+go: go1.24.7, not the go1.27.0 the repository pins: that release was not on this machine
+GO is cmd/dost-conform built from the branch driver-seam-ops at 8b6857f9, the Go driver that serves fix_inputs, advance, arm and disarm
+RUST is the Rust dost-conform of this commit, on main at 65020a52

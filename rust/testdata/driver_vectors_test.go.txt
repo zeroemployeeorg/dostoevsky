@@ -1,0 +1,162 @@
+package main
+
+// Writes the vectors that check how the Rust conformance driver binds a request against how this driver binds it. It is
+// kept as text because it must be compiled inside the driver's package: rust/testdata/regenerate.sh copies it in as a
+// test file, runs it and removes it again.
+//
+// Each row is one input, read as serve reads it (one decoder, unknown fields disallowed), and the outcome: "eof" when
+// there is no value, "err" when the driver would exit, or "ok" and the request it bound, written by json.Marshal. No
+// input holds invalid UTF-8 in a value, so the rows do not depend on how a release writes it.
+
+import (
+	"bytes"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"reflect"
+	"runtime"
+	"strings"
+	"testing"
+)
+
+func TestWriteRustDriverVectors(t *testing.T) {
+	dir := os.Getenv("DOST_RUST_VECTORS")
+	if dir == "" {
+		t.Skip("DOST_RUST_VECTORS is not set")
+	}
+	if _, ok := reflect.TypeOf(request{}).FieldByName("Seed"); !ok {
+		t.Skip("this driver has no test seam requests yet, and the rows cover them")
+	}
+	var inputs []string
+	seen := map[string]bool{}
+	add := func(s string) {
+		if !seen[s] {
+			seen[s] = true
+			inputs = append(inputs, s)
+		}
+	}
+
+	// What is not an object at all.
+	for _, s := range []string{``, ` `, "\n\t", `null`, ` null `, `{}`, `[]`, `[null]`, `"op"`, `0`, `true`, `false`, `{`, `{"op"}`, `{"op":}`,
+		`nul`, `{"op":"close"}x`, `{"op":"close"} {"op":"open"}`, `{"op":"a","op":"b"}`, `{"op":"a","op":null}`, `{"op":null,"op":"b"}`} {
+		add(s)
+	}
+
+	names := []string{"op", "dir", "segmented", "node", "nodes", "topics", "items", "group", "offset", "next", "state", "records", "bytes",
+		"floors", "dest", "discard_later", "topic", "partition", "key", "value", "id", "name", "version", "steps", "run", "queue", "input",
+		"attrs", "lease_ms", "token", "failure", "step", "after", "limit", "start", "seed", "nanoseconds", "point", "kill", "skip"}
+	values := []string{`null`, `true`, `false`, `0`, `-0`, `1`, `-1`, `7`, `255`, `256`, `1.0`, `1e2`, `9223372036854775807`, `9223372036854775808`,
+		`-9223372036854775808`, `-9223372036854775809`, `18446744073709551615`, `18446744073709551616`, `""`, `"x"`, `"aGk="`, `"aGk"`, `"aG k="`,
+		`"aGk=\n"`, `"aGl="`, `"<&> "`, `[]`, `[null]`, `[null,null]`, `[1,2,3]`, `[0,255]`, `[256]`, `[-1]`, `[1.0]`, `["a"]`, `["a",null,"b"]`,
+		`[1,"a"]`, `[[]]`, `[{}]`, `[{},null]`, `{}`, `{"a":1}`, `{"a":"b"}`, `{"a":null}`, `{"a":1,"a":2,"b":3}`, `{"a":"x","a":null}`,
+		`[{"topic":"t","key":"k","value":"aGk=","id":"i"}]`, `[{"topic":"t","partition":2,"floor":9}]`,
+		`[{"kind":"activity","name":"n","attempts":3,"backoff_ms":10}]`, `[{"value":[104,105]}]`, `[{"nope":1}]`, `[{"TOPIC":"t"}]`}
+	for _, n := range names {
+		for _, v := range values {
+			add(`{"` + n + `":` + v + `}`)
+		}
+	}
+
+	// Names that match only when folded, and names that do not match.
+	for _, n := range names {
+		for _, k := range []string{strings.ToUpper(n), strings.ToUpper(n[:1]) + n[1:], strings.ReplaceAll(n, "s", "ſ"), strings.ReplaceAll(n, "k", "K"),
+			strings.ReplaceAll(strings.ToUpper(n), "S", "ſ"), strings.ReplaceAll(n, "i", "ı"), strings.ReplaceAll(n, "i", "İ"),
+			strings.ReplaceAll(n, "_", "-"), n + " ", " " + n, n + "\u0000", strings.ReplaceAll(n, "e", "е"), strings.ReplaceAll(n, "a", "ａ")} {
+			add(`{"` + strings.ReplaceAll(k, "\u0000", `\u0000`) + `":null}`)
+		}
+	}
+	for _, s := range []string{`{"ſkip":3,"Kill":true,"KEY":"k"}`, `{"Op":"a","OP":"b","op":"c","oP":"d"}`, `{"op":"c","OP":"d"}`,
+		`{"items":[{"Key":"k","TOPIC":"t","Id":"i","VALUE":[1]}]}`, `{"floors":[{"FLOOR":1,"Partition":2,"topicı":"x"}]}`,
+		`{"steps":[{"Kind":"k","BACKOFF_Mſ":4,"attemptſ":2}]}`, `{"�op":1}`, `{"op":"x"}`, `{"":1}`} {
+		add(s)
+	}
+
+	// A key given more than once: Go binds each occurrence onto what the earlier ones left.
+	arrays := map[string][]string{
+		"nodes":   {`null`, `[]`, `["a"]`, `["a","b","c"]`, `[null]`, `[null,null]`, `[null,null,null,null]`, `["z",null]`},
+		"items":   {`null`, `[]`, `[{"topic":"a","key":"k","value":"aGk=","id":"i"}]`, `[{"topic":"b"},{"key":"l","value":[1,2,3]},{"id":"j"}]`, `[null]`, `[{},{}]`, `[null,null,null,null]`, `[{"value":[null,null]}]`, `[{"value":null},{"value":[9]}]`, `[{"value":[]},{"value":[null,null,null,null]}]`},
+		"floors":  {`null`, `[]`, `[{"topic":"a","partition":1,"floor":2}]`, `[{"floor":5},{"partition":6},{"topic":"c"}]`, `[null,null]`, `[{},{},{},{}]`},
+		"steps":   {`null`, `[]`, `[{"kind":"a","name":"n","attempts":1,"backoff_ms":2}]`, `[{"name":"m"},{"attempts":7}]`, `[null,null,null]`, `[{}]`},
+		"value":   {`null`, `[]`, `""`, `"aGk="`, `"AQIDBAU="`, `[1,2,3]`, `[9]`, `[null]`, `[null,null]`, `[null,null,null,null,null,null]`, `[7,null,8]`},
+		"state":   {`null`, `"aGk="`, `[1,2,3]`, `[null,null,null]`, `[]`},
+		"input":   {`null`, `"e30="`, `[123,125]`, `[null]`, `[null,null,null]`},
+		"failure": {`null`, `"eA=="`, `[1]`, `[null,null]`},
+		"topics":  {`null`, `{}`, `{"a":1}`, `{"a":2,"b":3}`, `{"a":null}`, `{"b":null,"c":4}`},
+		"attrs":   {`null`, `{}`, `{"a":"x"}`, `{"a":"y","b":"z"}`, `{"a":null}`},
+		"op":      {`null`, `"a"`, `"b"`, `""`},
+		"offset":  {`null`, `1`, `2`, `0`},
+		"kill":    {`null`, `true`, `false`},
+		"seed":    {`null`, `1`, `18446744073709551615`},
+	}
+	for _, n := range []string{"nodes", "items", "floors", "steps", "value", "state", "input", "failure", "topics", "attrs", "op", "offset", "kill", "seed"} {
+		vs := arrays[n]
+		for _, a := range vs {
+			for _, b := range vs {
+				add(`{"` + n + `":` + a + `,"` + n + `":` + b + `}`)
+				add(`{"` + n + `":` + a + `,"` + strings.ToUpper(n) + `":` + b + `}`)
+				for _, c := range vs {
+					add(`{"` + n + `":` + a + `,"` + n + `":` + b + `,"` + n + `":` + c + `}`)
+				}
+			}
+		}
+	}
+	// Longer chains for the fields whose spare elements can come back.
+	add(`{"value":[1,2,3,4,5],"value":[9],"value":[null,null,null],"value":[8,null],"value":[null,null,null,null,null,null,null]}`)
+	add(`{"value":"AQIDBAU=","value":[9],"value":[null,null,null,null,null,null]}`)
+	add(`{"value":[1,2,3],"value":"","value":[null,null,null]}`)
+	add(`{"value":[1,2,3],"value":[],"value":[null,null,null]}`)
+	add(`{"value":[1,2,3],"value":null,"value":[null,null,null]}`)
+	add(`{"items":[{"topic":"a","value":[1,2,3]},{"topic":"b","key":"k"},{"topic":"c"}],"items":[{"value":[9]}],"items":[{"value":[null,null,null]},{"id":"i"},null,null]}`)
+	add(`{"nodes":["a","b","c","d","e"],"nodes":["z"],"nodes":[null,null,"y"],"nodes":[null,null,null,null,null,null]}`)
+	add(`{"floors":[{"topic":"a","partition":1,"floor":2},{"topic":"b","partition":3,"floor":4}],"floors":[null],"floors":[{"floor":7},{"floor":8},{"floor":9}]}`)
+
+	// Whole requests as the suites send them.
+	for _, s := range []string{
+		`{"op":"open","dir":"store","segmented":true,"node":"a","nodes":["a","b"],"topics":{"events":1,"other":3}}`,
+		`{"op":"publish","topic":"events","partition":0,"key":"k","value":"aGk=","id":"i"}`,
+		`{"op":"publish_batch","items":[{"topic":"events","key":"","value":"cjA=","id":"r0"},{"topic":"other","value":"","id":""}]}`,
+		`{"op":"commit_batch","topic":"events","partition":0,"group":"g","offset":0,"next":5,"state":"Zml2ZQ==","items":[]}`,
+		`{"op":"retain","records":10,"bytes":1000,"floors":[{"topic":"events","partition":0,"floor":7}]}`,
+		`{"op":"repair","dir":"store","discard_later":true}`, `{"op":"backup","dest":"copy"}`,
+		`{"op":"wf_register","name":"n","version":2,"steps":[{"kind":"activity","name":"a","attempts":3,"backoff_ms":10}]}`,
+		`{"op":"wf_start_once","run":"r","name":"n","version":2,"input":"e30=","attrs":{"k":"v"}}`,
+		`{"op":"wf_poll","queue":"q","lease_ms":5000}`, `{"op":"wf_finish","run":"r","token":"t","step":1,"failure":"eA=="}`,
+		`{"op":"wf_history","run":"r","after":3,"limit":10}`, `{"op":"fix_inputs","start":-5,"step":7,"seed":18446744073709551615}`,
+		`{"op":"advance","nanoseconds":5}`, `{"op":"arm","point":"segment.write","kill":true,"skip":-1}`, `{"op":"disarm"}`,
+		"{\n \"op\" : \"close\"\n}\n", `{"op":"close","surprise":1}`, `{"op":"close","surprise":null}`,
+	} {
+		add(s)
+	}
+
+	var b strings.Builder
+	fmt.Fprintf(&b, "# written by %s with rust/testdata/driver_vectors_test.go.txt; do not edit\n", runtime.Version())
+	counts := map[string]int{}
+	for _, in := range inputs {
+		requests := json.NewDecoder(bytes.NewReader([]byte(in)))
+		requests.DisallowUnknownFields()
+		var q request
+		verdict := "ok"
+		if err := requests.Decode(&q); err == io.EOF {
+			verdict = "eof"
+		} else if err != nil {
+			verdict = "err"
+		}
+		counts[verdict]++
+		line := "-" + hex.EncodeToString([]byte(in)) + "- " + verdict
+		if verdict == "ok" {
+			bound, err := json.Marshal(q)
+			if err != nil {
+				t.Fatal(err)
+			}
+			line += " " + string(bound)
+		}
+		b.WriteString(line + "\n")
+	}
+	if err := os.WriteFile(filepath.Join(dir, "driver-requests-go.txt"), []byte(b.String()), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("driver-requests-go.txt: %d rows (%d ok, %d err, %d eof)", len(inputs), counts["ok"], counts["err"], counts["eof"])
+}

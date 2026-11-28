@@ -1,0 +1,15 @@
+$ scripts/conformance.py --engine go=.dev/bin/dost-conform --engine rust=.dev/rust-target/release/dost-conform --case incomplete-backup-directory
+PASS incomplete-backup-directory [legacy, go then go]
+PASS incomplete-backup-directory [legacy, go then rust]
+FAIL incomplete-backup-directory [legacy, rust then go] - step 2 (open): want error incomplete_backup, got {'ok': False, 'error': 'other', 'message': 'dostoevsky: Open is
+FAIL incomplete-backup-directory [legacy, rust then rust] - step 2 (open): want error incomplete_backup, got {'ok': False, 'error': 'other', 'message': 'dostoevsky: Open 
+PASS incomplete-backup-directory [segmented, go then go]
+PASS incomplete-backup-directory [segmented, go then rust]
+FAIL incomplete-backup-directory [segmented, rust then go] - step 2 (open): want error incomplete_backup, got {'ok': False, 'error': 'other', 'message': 'dostoevsky: Open
+FAIL incomplete-backup-directory [segmented, rust then rust] - step 2 (open): want error incomplete_backup, got {'ok': False, 'error': 'other', 'message': 'dostoevsky: Op
+4 passed, 4 failed
+
+the case (cmd/dost-conform/cases/incomplete-backup-directory.json), its steps:
+  {"do": "make_file", "file": "store/.journal.tmp", "content": "x"}
+  {"do": "open", "error": "incomplete_backup"}
+  {"do": "absent", "file": "store/journal.v1"}

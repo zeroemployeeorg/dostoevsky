@@ -1,0 +1,95 @@
+{
+ "about": "How a driver reads its input: what Go's JSON decoder accepts when it binds a request (bytes as numbers, folded names, null, a key given twice), what makes the driver stop, and when a request counts as complete.",
+ "streams": [
+  {
+   "about": "bytes as an array of numbers",
+   "input": "{\"op\":\"disarm\",\"value\":[104,105],\"state\":[],\"input\":[0,255],\"failure\":[null]}\n"
+  },
+  {
+   "about": "a byte above 255 in such an array",
+   "input": "{\"op\":\"disarm\",\"value\":[256]}\n"
+  },
+  {
+   "about": "names that match only when folded: long s and the kelvin sign",
+   "input": "{\"OP\":\"arm\",\"POINT\":\"no.such.point\",\"\u017fkip\":3,\"\u212aill\":false}\n{\"Op\":\"disarm\"}\n"
+  },
+  {
+   "about": "a name in another script that does not fold to a field",
+   "input": "{\"o\u0440\":\"disarm\"}\n"
+  },
+  {
+   "about": "null for a request",
+   "input": "null\n{\"op\":\"disarm\"}\nnull null\n"
+  },
+  {
+   "about": "null for members and for elements",
+   "input": "{\"op\":\"arm\",\"point\":null,\"kill\":null,\"skip\":null,\"nodes\":[null,\"b\",null],\"items\":[null,{\"value\":null}],\"floors\":[null],\"steps\":[null],\"topics\":{\"a\":null},\"attrs\":{\"a\":null},\"value\":null}\n"
+  },
+  {
+   "about": "a key given twice: text, the last wins",
+   "input": "{\"op\":\"close\",\"op\":\"arm\",\"point\":\"segment.write\",\"point\":\"no.such.point\",\"point\":\"also.none\"}\n"
+  },
+  {
+   "about": "a key given twice: null does not undo the first",
+   "input": "{\"op\":\"arm\",\"point\":\"no.such.point\",\"point\":null,\"op\":null}\n"
+  },
+  {
+   "about": "a key given twice, in two cases",
+   "input": "{\"op\":\"close\",\"OP\":\"disarm\",\"Op\":\"arm\",\"point\":\"p\",\"POINT\":\"q\"}\n"
+  },
+  {
+   "about": "a key given twice: lists, bytes and maps",
+   "input": "{\"op\":\"disarm\",\"nodes\":[\"a\",\"b\",\"c\"],\"nodes\":[\"z\"],\"nodes\":[null,null],\"value\":[1,2,3],\"value\":[9],\"value\":[null,null,null,null],\"items\":[{\"topic\":\"a\",\"value\":\"aGk=\"}],\"items\":[{\"key\":\"k\"}],\"topics\":{\"a\":1},\"topics\":{\"a\":null,\"b\":2}}\n"
+  },
+  {
+   "about": "an unknown field",
+   "input": "{\"op\":\"disarm\"}\n{\"op\":\"disarm\",\"surprise\":null}\n{\"op\":\"disarm\"}\n"
+  },
+  {
+   "about": "an unknown field inside an element",
+   "input": "{\"op\":\"disarm\",\"items\":[{\"nope\":1}]}\n"
+  },
+  {
+   "about": "values of the wrong type",
+   "input": "{\"op\":\"disarm\",\"kill\":1}\n"
+  },
+  {
+   "about": "a number that is not an integer as written",
+   "input": "{\"op\":\"disarm\",\"offset\":1.0}\n"
+  },
+  {
+   "about": "a request that is an array",
+   "input": "{\"op\":\"disarm\"}\n[]\n"
+  },
+  {
+   "about": "text that is not JSON after a request",
+   "input": "{\"op\":\"disarm\"}x\n"
+  },
+  {
+   "about": "a request cut short",
+   "input": "{\"op\":\"disarm\"}\n{\"op\":\"dis"
+  },
+  {
+   "about": "no input at all",
+   "input": ""
+  },
+  {
+   "about": "only white space",
+   "input": " \n\t\n"
+  },
+  {
+   "about": "two requests on one line and one across lines",
+   "input": "{\"op\":\"disarm\"}{\"op\":\"close\"} {\n\"op\"\n:\n\"wf_close\"\n}"
+  },
+  {
+   "about": "a request with no newline after it, answered while the input is open",
+   "input": "{\"op\":\"disarm\"}",
+   "replies_before_end": 1
+  },
+  {
+   "about": "two requests with no newline after the second, both answered while the input is open",
+   "input": "{\"op\":\"close\"}\n {\"op\":\"disarm\"}",
+   "replies_before_end": 2
+  }
+ ]
+}

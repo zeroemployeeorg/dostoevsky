@@ -13,7 +13,7 @@ trap 'rm -rf -- "$stage"' EXIT
 if [ "${2:-build}" = build ]; then
  mkdir "$stage/$name"
  cp *.go go.mod LICENSE README.md CHANGELOG.md VERSION Makefile "$stage/$name/"
- cp -R examples scripts docs sketch benchmarks cmd clienthttp clients wire wireserver workflow internal "$stage/$name/"
+ cp -R examples scripts docs sketch benchmarks cmd clienthttp clients wire wireserver workflow internal rust "$stage/$name/"
  (cd "$stage" && tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -cf "$name.tar" "$name" && gzip -n "$name.tar" && sha256sum "$name.tar.gz" > "$name.sha256")
  location=$stage
 else
