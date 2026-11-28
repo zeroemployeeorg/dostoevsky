@@ -1,0 +1,5 @@
+# One exact release, so that the format and lint gates give the same answer everywhere. See DEPS.md.
+[toolchain]
+channel = "1.97.0"
+components = ["rustfmt", "clippy"]
+profile = "minimal"

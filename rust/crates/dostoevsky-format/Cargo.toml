@@ -1,0 +1,13 @@
+[package]
+name = "dostoevsky-format"
+description = "On-disk encodings: frames, checkpoints, sidecars, the journal encoding, and the Go-compatible JSON reader and writer. No I/O."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]

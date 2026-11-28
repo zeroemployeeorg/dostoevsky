@@ -1,0 +1,8 @@
+machine: Linux x86_64, 2 processors
+rust: rustc 1.97.0 (2d8144b78 2026-07-07), the pinned release
+go: go1.24.7, not the go1.27.0 the repository pins: that release was not on this machine
+python: 3.13
+GO in the differential receipts is cmd/dost-conform built from the branch driver-seam-ops at 8b6857f9, the Go driver that serves fix_inputs, advance, arm and disarm. It has neither the kill line nor the refusal of a second arm.
+RUST is the Rust dost-conform of this commit, on main at 65020a52
+driver-requests-go.txt was written inside that same Go driver's package, with go1.24.7
+no package registry could be reached: the workspace has no outside crate, and the subtle and sha2 crates are not added

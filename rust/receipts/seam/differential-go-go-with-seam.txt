@@ -1,0 +1,18 @@
+$ scripts/differential.py --engine go=GO --engine again=GO      (six runs)
+7 comparisons: 0 different, 0 broken
+7 comparisons: 0 different, 0 broken
+7 comparisons: 0 different, 0 broken
+7 comparisons: 0 different, 0 broken
+7 comparisons: 0 different, 0 broken
+7 comparisons: 0 different, 0 broken
+
+the last run in full:
+same    backup-and-migrate [legacy]: again against go: 16 replies (16 identical as bytes), 13 files, 1918 bytes
+same    backup-and-migrate [segmented]: again against go: 11 replies (11 identical as bytes), 6 files, 892 bytes
+same    publish-read-commit [legacy]: again against go: 24 replies (24 identical as bytes), 2 files, 1488 bytes
+same    publish-read-commit [segmented]: again against go: 25 replies (25 identical as bytes), 4 files, 773 bytes
+same    retention [legacy]: again against go: 16 replies (16 identical as bytes), 2 files, 1051 bytes
+same    retention [segmented]: again against go: 16 replies (16 identical as bytes), 10 files, 1708 bytes
+same    seam-requests [legacy]: again against go: 11 replies (11 identical as bytes), 0 files, 0 bytes
+7 comparisons: 0 different, 0 broken
+exit 0

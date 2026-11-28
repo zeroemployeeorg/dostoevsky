@@ -1,0 +1,31 @@
+{
+  "about": "Publishes with and without keys and IDs, a repeated ID, a batch, reads, commits with state, a reopen and more writes. Touches every record field, the ID structures and consumer-group state.",
+  "formats": ["legacy", "segmented"],
+  "requests": [
+    {"op": "open", "topics": {"events": 1, "orders": 2}},
+    {"op": "publish", "value": "first"},
+    {"op": "publish", "value": "second", "key": "k1", "id": "id-1"},
+    {"op": "publish", "value": "second again", "key": "k1", "id": "id-1"},
+    {"op": "publish", "topic": "orders", "value": "order <1> & é", "key": "customer-7", "id": "order-1"},
+    {"op": "publish", "topic": "orders", "value": "", "key": "customer-8"},
+    {"op": "publish_batch", "items": [{"value": "b1", "id": "batch-1"}, {"topic": "orders", "value": "b2", "key": "customer-7"}, {"value": "b3"}]},
+    {"op": "publish", "topic": "missing", "value": "refused"},
+    {"op": "read", "offset": 0},
+    {"op": "read", "offset": 99},
+    {"op": "read_batch", "offset": 0, "records": 10, "bytes": 1048576},
+    {"op": "read_batch", "topic": "orders", "partition": 1, "offset": 0, "records": 10, "bytes": 1048576},
+    {"op": "position", "group": "g"},
+    {"op": "commit_batch", "group": "g", "offset": 0, "next": 2, "state": "two"},
+    {"op": "commit_batch", "group": "g", "offset": 0, "next": 3, "state": "stale"},
+    {"op": "commit_batch", "group": "g", "offset": 2, "next": 3, "state": ""},
+    {"op": "position", "group": "g"},
+    {"op": "close"},
+    {"op": "open", "topics": {"events": 1, "orders": 2}},
+    {"op": "position", "group": "g"},
+    {"op": "publish", "value": "after reopen", "id": "id-1"},
+    {"op": "publish", "value": "after reopen", "id": "id-2"},
+    {"op": "read_batch", "offset": 0, "records": 100, "bytes": 1048576},
+    {"op": "verify", "only": "segmented"},
+    {"op": "close"}
+  ]
+}

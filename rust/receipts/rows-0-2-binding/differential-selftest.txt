@@ -1,0 +1,28 @@
+ok    identical replies: status 0, want 0
+ok    only the message text differs: status 0, want 0
+ok    the message text differs and a result follows it: status 0, want 0
+ok    the error code differs: status 1, want 1
+ok    true against 1: status 1, want 1
+ok    1 against 1.0: status 1, want 1
+ok    the order of members: status 1, want 1
+ok    the escaping of a string: status 1, want 1
+ok    a member given twice: status 1, want 1
+ok    white space between tokens: status 1, want 1
+ok    a message that is not a string: status 1, want 1
+ok    a message inside the result is not masked: status 1, want 1
+ok    the result after a masked message differs: status 1, want 1
+ok    a driver that never answers: status 2, want 2
+ok    a driver that stops: status 2, want 2
+ok    a format with no request: status 2, want 2
+ok    no requests: status 2, want 2
+ok    no formats: status 2, want 2
+ok    a request without an op: status 2, want 2
+ok    a trace that is not JSON: status 2, want 2
+ok    streams: the same bytes and status: status 0, want 0
+ok    streams: one driver exits: status 1, want 1
+ok    streams: a reply wanted while the input is open never comes: status 2, want 2
+ok    streams: none: status 2, want 2
+ok    arguments --engine one=/bin/true: status 2, want 2
+ok    arguments --engine a=/bin/true --engine b=/bin/true --trace no-such-trace: status 2, want 2
+ok    arguments --engine a=/nonexistent/driver --engine b=/nonexistent/driver --trace seam-requests: status 2, want 2
+27 cases, 0 failed

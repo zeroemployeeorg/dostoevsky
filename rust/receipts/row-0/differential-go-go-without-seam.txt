@@ -1,0 +1,24 @@
+$ scripts/differential.py --engine go=GO --engine again=GO --without-seam
+DIFFER  backup-and-migrate [legacy]: again against go, 9 differences
+        tree: copy/journal.v1 differs at byte 91 (go has 462 bytes, again has 462)
+        tree: moved/segments/seg-0000000000000002.bloom differs at byte 32 (go has 44 bytes, again has 44)
+        tree: moved/segments/seg-0000000000000002.idx differs at byte 20 (go has 144 bytes, again has 144)
+        tree: moved/segments/seg-0000000000000002.log differs at byte 226 (go has 300 bytes, again has 300)
+        tree: store/journal.v1 differs at byte 91 (go has 462 bytes, again has 462)
+DIFFER  backup-and-migrate [segmented]: again against go, 4 differences
+        tree: copy/journal.v1 differs at byte 280 (go has 556 bytes, again has 556)
+        tree: store/segments/seg-0000000000000001.log differs at byte 192 (go has 305 bytes, again has 305)
+DIFFER  publish-read-commit [legacy]: again against go, 11 differences
+        tree: store/journal.v1 differs at byte 102 (go has 1515 bytes, again has 1518)
+DIFFER  publish-read-commit [segmented]: again against go, 11 differences
+        tree: store/segments/seg-0000000000000001.log differs at byte 203 (go has 729 bytes, again has 729)
+DIFFER  retention [legacy]: again against go, 6 differences
+        tree: store/journal.v1 differs at byte 203 (go has 1069 bytes, again has 1067)
+DIFFER  retention [segmented]: again against go, 11 differences
+        tree: store/segments/seg-0000000000000001.idx differs at byte 20 (go has 256 bytes, again has 256)
+        tree: store/segments/seg-0000000000000001.log differs at byte 192 (go has 560 bytes, again has 560)
+        tree: store/segments/seg-0000000000000002.bloom differs at byte 32 (go has 44 bytes, again has 44)
+        tree: store/segments/seg-0000000000000002.idx differs at byte 20 (go has 144 bytes, again has 144)
+        tree: store/segments/seg-0000000000000002.log differs at byte 259 (go has 291 bytes, again has 291)
+        tree: store/segments/seg-0000000000000003.log differs at byte 259 (go has 297 bytes, again has 297)
+6 comparisons: 6 different, 0 broken

@@ -1,0 +1,68 @@
+$ cargo fmt --check
+exit 0
+
+$ cargo clippy --offline --all-targets -- -D warnings
+exit 0
+
+$ cargo test --offline
+test conform::tests::replies_are_the_go_driver_s_bytes ... ok
+test conform::tests::requests_decode_as_in_go ... ok
+test conform::tests::serves_until_end_of_input_and_keeps_the_order_of_checks ... ok
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test errors::tests::the_first_kind_in_the_driver_order_is_reported ... ok
+test id_index::tests::equal_fingerprints_chain_newest_first ... ok
+test seam::tests::the_contract_as_the_go_package_keeps_it ... ok
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test the_admission_sketch_and_the_location_index_match_go ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test base64::tests::refuses_what_go_refuses_and_skips_newlines ... ok
+test base64::tests::known_vectors_round_trip ... ok
+test frame3::tests::a_fence_is_a_frame_with_no_body ... ok
+test crc32c::tests::the_table_and_the_processor_agree_and_chain ... ok
+test frame3::tests::the_zero_time_is_the_smallest_value ... ok
+test frame3::tests::every_single_bit_flip_is_detected ... ok
+test frame3::tests::truncation_at_every_length_is_a_short_frame ... ok
+test gojson::tests::a_stream_waits_for_the_rest ... ok
+test gojson::tests::invalid_utf8_is_written_raw_and_both_forms_read_the_same ... ok
+test gojson::tests::reads_what_go_reads ... ok
+test gojson::tests::refuses_what_go_refuses ... ok
+test gojson::tests::strings_match_the_go_encoder ... ok
+test gojson::tests::writes_values_as_go_does ... ok
+test gojson::tests::reads_and_refuses_exactly_what_the_go_decoder_does ... ok
+test sha256::tests::lengths_around_the_block_size ... ok
+test sha256::tests::standard_vectors ... ok
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+test a_refused_checkpoint_leaves_the_buffer_as_it_was ... ok
+test base64_matches_go ... ok
+test crc32c_matches_go ... ok
+test checkpoints_match_go ... ok
+test the_id_table_and_filter_match_go ... ok
+test the_record_scanner_matches_go ... ok
+test frames_match_go ... ok
+test times_match_go ... ok
+test the_segment_index_matches_go ... ok
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test wire::tests::append_keeps_what_is_there ... ok
+test wire::tests::a_client_accepts_only_a_usable_welcome ... ok
+test wire::tests::code_names ... ok
+test wire::tests::authenticate_checks_the_token_before_the_version ... ok
+test wire::tests::invalid_vectors ... ok
+test wire::tests::limits_match_the_vector_file ... ok
+test wire::tests::reply_bounds ... ok
+test wire::tests::the_largest_legal_frames_fit ... ok
+test wire::tests::valid_vectors ... ok
+test wire::tests::every_decision_matches_the_go_codec ... ok
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

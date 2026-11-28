@@ -1,0 +1,6 @@
+machine: Linux x86_64, 2 processors
+os: Ubuntu 24.04.5 LTS
+rust: rustc 1.97.0 (2d8144b78 2026-07-07); clippy 0.1.97 (2d8144b788 2026-07-07); rustfmt 1.9.0-stable (2d8144b788 2026-07-07)
+go: go1.24.7, not the go1.27.0 the repository pins: that release was not on this machine
+python: Python 3.13.18
+base: main at 8fa64fe2

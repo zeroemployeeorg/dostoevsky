@@ -1,0 +1,9 @@
+$ scripts/conformance.py --engine go=GO
+26 passed, 0 failed
+
+$ scripts/conformance.py --engine go=GO --engine rust=RUST
+FAIL backup-restores [legacy, go then rust] - step 18 (open): other: dostoevsky: Open is not ported yet (row 6)
+FAIL backup-restores [legacy, rust then go] - step 1 (open): other: dostoevsky: Open is not ported yet (row 6)
+FAIL backup-restores [legacy, rust then rust] - step 1 (open): other: dostoevsky: Open is not ported yet (row 6)
+FAIL backup-restores [segmented, go then rust] - step 18 (open): other: dostoevsky: Open is not ported yet (row 6)
+28 passed, 76 failed

@@ -1,0 +1,13 @@
+[package]
+name = "dostoevsky-py"
+description = "The Python binding (row 14). Empty until its binding crate can be added."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]

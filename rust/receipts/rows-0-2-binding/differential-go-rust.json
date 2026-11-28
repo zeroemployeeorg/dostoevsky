@@ -1,0 +1,443 @@
+[
+ {
+  "trace": "backup-and-migrate",
+  "format": "legacy",
+  "reference": "go",
+  "engine": "rust",
+  "seam": true,
+  "requests": 16,
+  "replies_identical_but_for_message_text": 0,
+  "replies_identical_bytes": 0,
+  "refusals_with_any_code": 0,
+  "paths": 17,
+  "files": 13,
+  "file_bytes": 1918,
+  "tree_sha256": {
+   "go": "9eaf69ea1ac4b883d208ba27c6c58f8029ccf1cba04426467147b10684b93b78",
+   "rust": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "differences": 33
+ },
+ {
+  "trace": "backup-and-migrate",
+  "format": "segmented",
+  "reference": "go",
+  "engine": "rust",
+  "seam": true,
+  "requests": 11,
+  "replies_identical_but_for_message_text": 3,
+  "replies_identical_bytes": 3,
+  "refusals_with_any_code": 0,
+  "paths": 9,
+  "files": 6,
+  "file_bytes": 892,
+  "tree_sha256": {
+   "go": "12c09aeccae5874ff60273279556930af802fde540200b65ad7f902356d33f34",
+   "rust": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "differences": 17
+ },
+ {
+  "trace": "publish-read-commit",
+  "format": "legacy",
+  "reference": "go",
+  "engine": "rust",
+  "seam": true,
+  "requests": 24,
+  "replies_identical_but_for_message_text": 0,
+  "replies_identical_bytes": 0,
+  "refusals_with_any_code": 0,
+  "paths": 3,
+  "files": 2,
+  "file_bytes": 1488,
+  "tree_sha256": {
+   "go": "1350e4c7f72835355574ac39daeb950b45a2973dcac0150d2fb9aaf6c060a78c",
+   "rust": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "differences": 27
+ },
+ {
+  "trace": "publish-read-commit",
+  "format": "segmented",
+  "reference": "go",
+  "engine": "rust",
+  "seam": true,
+  "requests": 25,
+  "replies_identical_but_for_message_text": 0,
+  "replies_identical_bytes": 0,
+  "refusals_with_any_code": 0,
+  "paths": 6,
+  "files": 4,
+  "file_bytes": 773,
+  "tree_sha256": {
+   "go": "b226e3fc4b3cc79de53f7a335e44fa92149bd572fef170402632bf57343c34b6",
+   "rust": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "differences": 31
+ },
+ {
+  "trace": "request-binding",
+  "stream": 0,
+  "about": "bytes as an array of numbers",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 1,
+  "about": "a byte above 255 in such an array",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 0,
+  "replies_identical_bytes": 0,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 2,
+  "about": "names that match only when folded: long s and the kelvin sign",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 2,
+  "replies_identical_bytes": 2,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 3,
+  "about": "a name in another script that does not fold to a field",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 0,
+  "replies_identical_bytes": 0,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 4,
+  "about": "null for a request",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 4,
+  "replies_identical_bytes": 4,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 5,
+  "about": "null for members and for elements",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 6,
+  "about": "a key given twice: text, the last wins",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 7,
+  "about": "a key given twice: null does not undo the first",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 8,
+  "about": "a key given twice, in two cases",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 9,
+  "about": "a key given twice: lists, bytes and maps",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 10,
+  "about": "an unknown field",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 11,
+  "about": "an unknown field inside an element",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 0,
+  "replies_identical_bytes": 0,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 12,
+  "about": "values of the wrong type",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 0,
+  "replies_identical_bytes": 0,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 13,
+  "about": "a number that is not an integer as written",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 0,
+  "replies_identical_bytes": 0,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 14,
+  "about": "a request that is an array",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 15,
+  "about": "text that is not JSON after a request",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 16,
+  "about": "a request cut short",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 1,
+   "rust": 1
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 17,
+  "about": "no input at all",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 0,
+  "replies_identical_bytes": 0,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 18,
+  "about": "only white space",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 0,
+  "replies_identical_bytes": 0,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 19,
+  "about": "two requests on one line and one across lines",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 3,
+  "replies_identical_bytes": 3,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 20,
+  "about": "a request with no newline after it, answered while the input is open",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 1,
+  "replies_identical_bytes": 1,
+  "differences": 0
+ },
+ {
+  "trace": "request-binding",
+  "stream": 21,
+  "about": "two requests with no newline after the second, both answered while the input is open",
+  "reference": "go",
+  "engine": "rust",
+  "status": {
+   "go": 0,
+   "rust": 0
+  },
+  "replies": 2,
+  "replies_identical_bytes": 2,
+  "differences": 0
+ },
+ {
+  "trace": "retention",
+  "format": "legacy",
+  "reference": "go",
+  "engine": "rust",
+  "seam": true,
+  "requests": 16,
+  "replies_identical_but_for_message_text": 0,
+  "replies_identical_bytes": 0,
+  "refusals_with_any_code": 1,
+  "paths": 3,
+  "files": 2,
+  "file_bytes": 1051,
+  "tree_sha256": {
+   "go": "5a0b454c65a171f4fb8f154ea0fc2a305483bb941250ae85c5d46f6a5fe9177a",
+   "rust": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "differences": 18
+ },
+ {
+  "trace": "retention",
+  "format": "segmented",
+  "reference": "go",
+  "engine": "rust",
+  "seam": true,
+  "requests": 16,
+  "replies_identical_but_for_message_text": 0,
+  "replies_identical_bytes": 0,
+  "refusals_with_any_code": 1,
+  "paths": 12,
+  "files": 10,
+  "file_bytes": 1708,
+  "tree_sha256": {
+   "go": "65d54fe5b4363537861b89a6014668cfc098a565e93feb04e8d5d3aa1bef3011",
+   "rust": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "differences": 27
+ },
+ {
+  "trace": "seam-requests",
+  "format": "legacy",
+  "reference": "go",
+  "engine": "rust",
+  "seam": true,
+  "requests": 12,
+  "replies_identical_but_for_message_text": 12,
+  "replies_identical_bytes": 12,
+  "refusals_with_any_code": 0,
+  "paths": 0,
+  "files": 0,
+  "file_bytes": 0,
+  "tree_sha256": {
+   "go": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rust": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "differences": 0
+ }
+]

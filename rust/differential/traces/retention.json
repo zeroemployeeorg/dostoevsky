@@ -1,0 +1,22 @@
+{
+  "about": "Retention below and above a consumer group's position, then more writes and a reopen.",
+  "formats": ["legacy", "segmented"],
+  "requests": [
+    {"op": "open"},
+    {"op": "publish_batch", "items": [{"value": "r0", "id": "r0"}, {"value": "r1", "id": "r1"}, {"value": "r2", "id": "r2"}, {"value": "r3", "id": "r3"}, {"value": "r4", "id": "r4"}, {"value": "r5", "id": "r5"}, {"value": "r6", "id": "r6"}, {"value": "r7", "id": "r7"}]},
+    {"op": "commit_batch", "group": "g", "offset": 0, "next": 5, "state": "five"},
+    {"op": "retain", "floors": [{"floor": 7}]},
+    {"op": "retain", "floors": [{"floor": 99}, {"topic": "missing", "floor": 1}], "refuses": true},
+    {"op": "retain", "floors": [{"floor": 3}]},
+    {"op": "publish", "value": "r8", "id": "r8"},
+    {"op": "retain", "floors": [{"floor": 4}]},
+    {"op": "read", "offset": 2},
+    {"op": "read_batch", "offset": 4, "records": 100, "bytes": 1048576},
+    {"op": "publish", "value": "r0 again", "id": "r0"},
+    {"op": "close"},
+    {"op": "open"},
+    {"op": "read_batch", "offset": 4, "records": 100, "bytes": 1048576},
+    {"op": "position", "group": "g"},
+    {"op": "close"}
+  ]
+}

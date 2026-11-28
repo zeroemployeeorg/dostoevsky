@@ -1,0 +1,14 @@
+$ scripts/differential.py --engine go=GO --engine rust=RUST --trace seam-requests
+same    seam-requests [legacy]: rust against go: 11 replies (11 identical as bytes), 0 files, 0 bytes
+1 comparisons: 0 different, 0 broken
+exit 0
+
+$ scripts/differential.py --engine go=GO --engine rust=RUST
+DIFFER  backup-and-migrate [legacy]: rust against go, 33 differences
+DIFFER  backup-and-migrate [segmented]: rust against go, 17 differences
+DIFFER  publish-read-commit [legacy]: rust against go, 27 differences
+DIFFER  publish-read-commit [segmented]: rust against go, 31 differences
+DIFFER  retention [legacy]: rust against go, 18 differences
+DIFFER  retention [segmented]: rust against go, 27 differences
+same    seam-requests [legacy]: rust against go: 11 replies (11 identical as bytes), 0 files, 0 bytes
+7 comparisons: 6 different, 0 broken

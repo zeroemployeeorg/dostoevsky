@@ -1,0 +1,18 @@
+{
+  "about": "The test seam requests themselves, with nothing open: arming a point that exists, one that does not, a negative skip, and what disarm replies when the point never fired. Each armed point is reported by disarm before the next is armed.",
+  "formats": ["legacy"],
+  "requests": [
+    {"op": "advance", "nanoseconds": 5},
+    {"op": "disarm"},
+    {"op": "arm", "point": "segment.write", "kill": false, "skip": 0},
+    {"op": "disarm"},
+    {"op": "arm", "point": "no.such.point", "kill": false, "skip": 0},
+    {"op": "arm", "point": "dirsync", "kill": true, "skip": -1},
+    {"op": "disarm"},
+    {"op": "arm", "point": "workflow.mid_append", "kill": false, "skip": 3},
+    {"op": "disarm"},
+    {"op": "disarm"},
+    {"op": "close"},
+    {"op": "wf_close"}
+  ]
+}

@@ -1,0 +1,2 @@
+# The Go sources are written to 120 columns; the same width keeps the two readable side by side.
+max_width = 120

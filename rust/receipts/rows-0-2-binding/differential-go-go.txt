@@ -1,0 +1,31 @@
+same    backup-and-migrate [legacy]: again against go: 16 replies (16 identical as bytes), 13 files, 1918 bytes
+same    backup-and-migrate [segmented]: again against go: 11 replies (11 identical as bytes), 6 files, 892 bytes
+same    publish-read-commit [legacy]: again against go: 24 replies (24 identical as bytes), 2 files, 1488 bytes
+same    publish-read-commit [segmented]: again against go: 25 replies (25 identical as bytes), 4 files, 773 bytes
+same    request-binding [stream 0: bytes as an array of numbers]: again against go: status 0, 1 replies (1 identical as bytes)
+same    request-binding [stream 1: a byte above 255 in such an array]: again against go: status 1, 0 replies (0 identical as bytes)
+same    request-binding [stream 2: names that match only when folded: long s and the kelvin sign]: again against go: status 0, 2 replies (2 identical as bytes)
+same    request-binding [stream 3: a name in another script that does not fold to a field]: again against go: status 1, 0 replies (0 identical as bytes)
+same    request-binding [stream 4: null for a request]: again against go: status 0, 4 replies (4 identical as bytes)
+same    request-binding [stream 5: null for members and for elements]: again against go: status 0, 1 replies (1 identical as bytes)
+same    request-binding [stream 6: a key given twice: text, the last wins]: again against go: status 0, 1 replies (1 identical as bytes)
+same    request-binding [stream 7: a key given twice: null does not undo the first]: again against go: status 0, 1 replies (1 identical as bytes)
+same    request-binding [stream 8: a key given twice, in two cases]: again against go: status 0, 1 replies (1 identical as bytes)
+same    request-binding [stream 9: a key given twice: lists, bytes and maps]: again against go: status 0, 1 replies (1 identical as bytes)
+same    request-binding [stream 10: an unknown field]: again against go: status 1, 1 replies (1 identical as bytes)
+same    request-binding [stream 11: an unknown field inside an element]: again against go: status 1, 0 replies (0 identical as bytes)
+same    request-binding [stream 12: values of the wrong type]: again against go: status 1, 0 replies (0 identical as bytes)
+same    request-binding [stream 13: a number that is not an integer as written]: again against go: status 1, 0 replies (0 identical as bytes)
+same    request-binding [stream 14: a request that is an array]: again against go: status 1, 1 replies (1 identical as bytes)
+same    request-binding [stream 15: text that is not JSON after a request]: again against go: status 1, 1 replies (1 identical as bytes)
+same    request-binding [stream 16: a request cut short]: again against go: status 1, 1 replies (1 identical as bytes)
+same    request-binding [stream 17: no input at all]: again against go: status 0, 0 replies (0 identical as bytes)
+same    request-binding [stream 18: only white space]: again against go: status 0, 0 replies (0 identical as bytes)
+same    request-binding [stream 19: two requests on one line and one across lines]: again against go: status 0, 3 replies (3 identical as bytes)
+same    request-binding [stream 20: a request with no newline after it, answered while the input is open]: again against go: status 0, 1 replies (1 identical as bytes)
+same    request-binding [stream 21: two requests with no newline after the second, both answered while the input is open]: again against go: status 0, 2 replies (2 identical as bytes)
+same    retention [legacy]: again against go: 16 replies (16 identical as bytes), 2 files, 1051 bytes
+same    retention [segmented]: again against go: 16 replies (16 identical as bytes), 10 files, 1708 bytes
+same    seam-requests [legacy]: again against go: 12 replies (12 identical as bytes), 0 files, 0 bytes
+29 comparisons: 0 different, 0 broken
+exit 0
